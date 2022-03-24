@@ -1,171 +1,166 @@
 package com.example.fsltranslator
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
-import android.util.Size
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
+import androidx.camera.core.ImageCapture
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import com.example.fsltranslator.databinding.ActivityTranslateBinding
+import com.google.common.util.concurrent.ListenableFuture
 import com.google.mlkit.common.model.LocalModel
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.objects.ObjectDetection
 import com.google.mlkit.vision.objects.custom.CustomObjectDetectorOptions
-import java.util.concurrent.ExecutorService
+import com.google.mlkit.vision.text.TextRecognition
+import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import java.util.concurrent.Executors
-
-typealias LumaListener = (luma: Double) -> Unit
 
 
 class TranslateActivity : AppCompatActivity() {
-    private lateinit var viewBinding: ActivityTranslateBinding
+    private lateinit var binding: ActivityTranslateBinding;
+    private var imageCapture: ImageCapture? = null
+    private lateinit var cameraProviderFuture: ListenableFuture<ProcessCameraProvider>
 
-    private lateinit var cameraExecutor: ExecutorService
 
-    @SuppressLint("UnsafeOptInUsageError")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewBinding = ActivityTranslateBinding.inflate(layoutInflater)
-        setContentView(viewBinding.root)
+        binding = ActivityTranslateBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
 
-
-        // Request camera permissions
-        if (allPermissionsGranted()) {
-            startCamera()
+        if (allPermissionGranted()) {
+            cameraProviderFuture = ProcessCameraProvider.getInstance(this)
+            cameraProviderFuture.addListener(Runnable {
+                val cameraProvider = cameraProviderFuture.get()
+                bindPreview(cameraProvider)
+            }, ContextCompat.getMainExecutor(this))
         } else {
             ActivityCompat.requestPermissions(
-                this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
+                this,
+                Constants.REQUIRED_PERMISSION,
+                Constants.REQUEST_CODE_PERMISSIONS
+            )
         }
-
-        cameraExecutor = Executors.newSingleThreadExecutor()
     }
 
-    @SuppressLint("UnsafeOptInUsageError")
-    private fun startCamera() {
-        val localModel = LocalModel.Builder()
-            .setAssetFilePath("object_detection.tflite")
-            // or .setAbsoluteFilePath(absolute file path to model file)
-            // or .setUri(URI to model file)
+    private fun bindPreview(cameraProvider: ProcessCameraProvider) {
+        val preview: Preview = Preview.Builder()
             .build()
 
-        val customObjectDetectorOptions =
-            CustomObjectDetectorOptions.Builder(localModel)
-                .setDetectorMode(CustomObjectDetectorOptions.STREAM_MODE)
-                .enableClassification()
-                .setClassificationConfidenceThreshold(0.5f)
-                .setMaxPerObjectLabelCount(3)
-                .build()
+        val cameraSelector: CameraSelector = CameraSelector.Builder()
+            .requireLensFacing(CameraSelector.LENS_FACING_BACK)
+            .build()
+        preview.setSurfaceProvider(binding.viewFinder.getSurfaceProvider())
 
-        val objectDetector =
-            ObjectDetection.getClient(customObjectDetectorOptions)
-        val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
         val imageAnalysis = ImageAnalysis.Builder()
-            // enable the following line if RGBA output is needed.
-            // .setOutputImageFormat(ImageAnalysis.OUTPUT_IMAGE_FORMAT_RGBA_8888)
-            .setTargetResolution(Size(1280, 720))
             .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
             .build()
-        imageAnalysis.setAnalyzer(Executors.newSingleThreadExecutor(), ImageAnalysis.Analyzer{imageProxy ->
-            val rotationDegrees = imageProxy.imageInfo.rotationDegrees
-            // insert your code here.
-            val mediaImage = imageProxy.image
-            if (mediaImage != null) {
-                val image = InputImage.fromMediaImage(mediaImage, imageProxy.imageInfo.rotationDegrees)
-                // Pass image to an ML Kit Vision API
-                objectDetector
-                    .process(image)
-                .addOnSuccessListener{results ->
-                    for (detectedObject in results) {
-                        val boundingBox = detectedObject.boundingBox
-                        val trackingId = detectedObject.trackingId
-                        for (label in detectedObject.labels) {
-                            val text = label.text
-                            val index = label.index
-                            val confidence = label.confidence
-                            Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
+        imageCapture = ImageCapture.Builder()
+            .build()
+        imageAnalysis.setAnalyzer(
+            Executors.newSingleThreadExecutor(),
+            ImageAnalysis.Analyzer { image ->
+                val rotationDegrees = image.imageInfo.rotationDegrees
+                // Initialize Text Recognition
+                val recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
 
+                // Initialize Object Detection
+                val localModel = LocalModel.Builder()
+                    .setAssetFilePath("model4.tflite")
+                    .build()
+                val customObjectDetectorOptions =
+                    CustomObjectDetectorOptions.Builder(localModel)
+                        .setDetectorMode(CustomObjectDetectorOptions.SINGLE_IMAGE_MODE)
+                        .enableMultipleObjects()
+                        .enableClassification()
+                        .setClassificationConfidenceThreshold(0.4f)
+                        .setMaxPerObjectLabelCount(3)
+                        .build()
+                val objectDetector = ObjectDetection.getClient(customObjectDetectorOptions)
+
+                // Image Processing
+                @androidx.camera.core.ExperimentalGetImage
+                val mediaImage = image.image
+                @androidx.camera.core.ExperimentalGetImage
+                if (mediaImage != null) {
+                    val image1 = InputImage.fromMediaImage(mediaImage, rotationDegrees)
+                    // Object Processing
+                    objectDetector.process(image1)
+                        .addOnSuccessListener { detectedObjects ->
+                            //binding.textView2.text = "earl"
+                            for (detectedObject in detectedObjects) {
+                                val boundingBox = detectedObject.boundingBox
+                                val trackingId = detectedObject.trackingId
+                                for (label in detectedObject.labels) {
+                                    binding.textView10.text = label.text
+                                    val text = label.text
+                                    val index = label.index
+                                    val confidence = label.confidence
+                                }
+                            }
+                            image.close()
                         }
-                    }
+                        .addOnFailureListener { e ->
+                            binding.textView10.text =
+                                "Error"
+                            image.close()
+                        }
+                } else {
+                    image.close()
                 }
-            }
-            // after done, release the ImageProxy object
-            imageProxy.close()
-        })
-        cameraProviderFuture.addListener({
-            val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
-
-            // Preview
-            val preview = Preview.Builder()
-                .build()
-                .also {
-                    it.setSurfaceProvider(viewBinding.viewFinder.surfaceProvider)
-                }
-
-            // Select back camera as a default
-            val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
-
-            try {
-                cameraProvider.unbindAll()
-
-                cameraProvider.bindToLifecycle(
-                    this, cameraSelector, preview)
-
-                cameraProvider.bindToLifecycle(this as LifecycleOwner, cameraSelector, imageAnalysis, preview)
-
-            } catch(exc: Exception) {
-                Log.e(TAG, "Use case binding failed", exc)
-            }
-
-        }, ContextCompat.getMainExecutor(this))
+            })
+        var camera = cameraProvider.bindToLifecycle(
+            this as LifecycleOwner, cameraSelector,
+            imageCapture,
+            imageAnalysis,
+            preview
+        )
     }
 
-    private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
-        ContextCompat.checkSelfPermission(
-            baseContext, it) == PackageManager.PERMISSION_GRANTED
+    private fun String.onlyLetters() = all { it.isLetter() }
+    private fun String.onlyDigits() = all { it.isDigit() }
+    private fun isPlateNumber(lineText: String): Boolean {
+        if (lineText.length == 6) {
+            return (lineText.take(3).onlyLetters() && lineText.takeLast(3).onlyDigits())
+        } else if (lineText.length == 7) {
+            return (lineText.take(3).onlyLetters() && lineText.takeLast(4).onlyDigits())
+        }
+        return false
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        cameraExecutor.shutdown()
-    }
 
-    companion object {
-        private const val TAG = "CameraXApp"
-        private const val REQUEST_CODE_PERMISSIONS = 10
-        private val REQUIRED_PERMISSIONS =
-            mutableListOf (
-                Manifest.permission.CAMERA,
-                Manifest.permission.RECORD_AUDIO
-            ).apply {
-                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
-                    add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                }
-            }.toTypedArray()
-    }
+    @SuppressLint("MissingSuperCall")
     override fun onRequestPermissionsResult(
-        requestCode: Int, permissions: Array<String>, grantResults:
-        IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == REQUEST_CODE_PERMISSIONS) {
-            if (allPermissionsGranted()) {
-                startCamera()
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray,
+    ) {
+
+        if (requestCode == Constants.REQUEST_CODE_PERMISSIONS) {
+            if (allPermissionGranted()) {
+                cameraProviderFuture = ProcessCameraProvider.getInstance(this)
+                cameraProviderFuture.addListener(Runnable {
+                    val cameraProvider = cameraProviderFuture.get()
+                    bindPreview(cameraProvider)
+                }, ContextCompat.getMainExecutor(this))
             } else {
-                Toast.makeText(this,
-                    "Permissions not granted by the user.",
-                    Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "hello", Toast.LENGTH_LONG).show()
                 finish()
             }
         }
     }
+
+    private fun allPermissionGranted() =
+        Constants.REQUIRED_PERMISSION.all {
+            ContextCompat.checkSelfPermission(baseContext, it) == PackageManager.PERMISSION_GRANTED
+        }
+
 }
