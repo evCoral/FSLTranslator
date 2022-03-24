@@ -82,7 +82,7 @@
                 android:id="@+id/textView5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="The application uses the algorithm that was used in YOLO(You only Look Once) version 3, is a real-time object detection algorithm that identifies specific objects in videos, live feeds, or images. YOLO uses features learned by a deep convolutional neural network to detect an object. "
+                android:text="The application uses Object Detection and cameraX in kotlin as their dependency, the app currently uses MLKits for the data extracted to translate the sign language. "
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

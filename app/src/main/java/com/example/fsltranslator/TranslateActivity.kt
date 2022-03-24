@@ -74,17 +74,18 @@ class TranslateActivity : AppCompatActivity() {
 
                 // Initialize Object Detection
                 val localModel = LocalModel.Builder()
-                    .setAssetFilePath("model4.tflite")
+                    .setAssetFilePath("model6.tflite")
                     .build()
                 val customObjectDetectorOptions =
                     CustomObjectDetectorOptions.Builder(localModel)
                         .setDetectorMode(CustomObjectDetectorOptions.SINGLE_IMAGE_MODE)
                         .enableMultipleObjects()
                         .enableClassification()
-                        .setClassificationConfidenceThreshold(0.4f)
-                        .setMaxPerObjectLabelCount(3)
+                        .setClassificationConfidenceThreshold(0.3f)
+                        .setMaxPerObjectLabelCount(1)
                         .build()
                 val objectDetector = ObjectDetection.getClient(customObjectDetectorOptions)
+
 
                 // Image Processing
                 @androidx.camera.core.ExperimentalGetImage
@@ -92,18 +93,18 @@ class TranslateActivity : AppCompatActivity() {
                 @androidx.camera.core.ExperimentalGetImage
                 if (mediaImage != null) {
                     val image1 = InputImage.fromMediaImage(mediaImage, rotationDegrees)
+
                     // Object Processing
                     objectDetector.process(image1)
                         .addOnSuccessListener { detectedObjects ->
-                            //binding.textView2.text = "earl"
                             for (detectedObject in detectedObjects) {
                                 val boundingBox = detectedObject.boundingBox
                                 val trackingId = detectedObject.trackingId
                                 for (label in detectedObject.labels) {
                                     binding.textView10.text = label.text
                                     val text = label.text
-                                    val index = label.index
                                     val confidence = label.confidence
+                                    binding.textView10.text = label.text + " " + label.confidence
                                 }
                             }
                             image.close()
