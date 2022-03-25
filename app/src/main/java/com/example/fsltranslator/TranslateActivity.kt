@@ -60,6 +60,8 @@ class TranslateActivity : AppCompatActivity() {
             .build()
         preview.setSurfaceProvider(binding.viewFinder.getSurfaceProvider())
 
+        var prevPredict = ""
+
         val imageAnalysis = ImageAnalysis.Builder()
             .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
             .build()
@@ -74,14 +76,14 @@ class TranslateActivity : AppCompatActivity() {
 
                 // Initialize Object Detection
                 val localModel = LocalModel.Builder()
-                    .setAssetFilePath("model9.tflite")
+                    .setAssetFilePath("model21.tflite")
                     .build()
                 val customObjectDetectorOptions =
                     CustomObjectDetectorOptions.Builder(localModel)
                         .setDetectorMode(CustomObjectDetectorOptions.SINGLE_IMAGE_MODE)
                         .enableMultipleObjects()
                         .enableClassification()
-                        .setClassificationConfidenceThreshold(0.4f)
+                        .setClassificationConfidenceThreshold(0.5f)
                         .setMaxPerObjectLabelCount(3)
                         .build()
                 val objectDetector = ObjectDetection.getClient(customObjectDetectorOptions)
@@ -101,6 +103,12 @@ class TranslateActivity : AppCompatActivity() {
                                 val boundingBox = detectedObject.boundingBox
                                 val trackingId = detectedObject.trackingId
                                 for (label in detectedObject.labels) {
+                                    if (label.text == "Drink" || label.text == "Eat")
+                                    prevPredict = label.text
+                                    if (label.text == "Drink2" || prevPredict == "Drink")
+                                    binding.textView10.text = "I need a Drink"
+                                    if (label.text == "Eat2" || prevPredict == "Eat")
+                                    binding.textView10.text = "I need to Eat"
                                     binding.textView10.text = label.text
                                     val text = label.text
                                     val confidence = label.confidence

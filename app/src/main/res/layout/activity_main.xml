@@ -34,14 +34,14 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="267dp"
-        android:layout_height="199dp"
-        android:layout_marginBottom="59dp"
-        app:layout_constraintBottom_toTopOf="@+id/secondActivityBtn"
+        android:layout_width="271dp"
+        android:layout_height="251dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.762"
-        app:srcCompat="@drawable/logoFSL" />
+        app:layout_constraintVertical_bias="0.381"
+        app:srcCompat="@drawable/logofsl" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

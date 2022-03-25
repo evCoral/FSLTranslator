@@ -14,7 +14,6 @@ class SecondActivity : AppCompatActivity() {
         val guideBtn = findViewById<Button>(R.id.guideBtn)
         val translateBtn = findViewById<Button>(R.id.translateBtn)
         val feedbackBtn = findViewById<Button>(R.id.feedbackBtn)
-        val dataBtn = findViewById<Button>(R.id.dataBtn)
 
         guideBtn.setOnClickListener {
             val intent = Intent(this, GuideActivity::class.java)
