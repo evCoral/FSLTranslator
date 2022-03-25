@@ -23,6 +23,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FSLTranslator">
         <activity
+            android:name=".SampleFsl"
+            android:exported="false" />
+        <activity
             android:name=".TranslateActivity"
             android:exported="false" />
         <activity
