@@ -74,15 +74,15 @@ class TranslateActivity : AppCompatActivity() {
 
                 // Initialize Object Detection
                 val localModel = LocalModel.Builder()
-                    .setAssetFilePath("model6.tflite")
+                    .setAssetFilePath("model9.tflite")
                     .build()
                 val customObjectDetectorOptions =
                     CustomObjectDetectorOptions.Builder(localModel)
                         .setDetectorMode(CustomObjectDetectorOptions.SINGLE_IMAGE_MODE)
                         .enableMultipleObjects()
                         .enableClassification()
-                        .setClassificationConfidenceThreshold(0.3f)
-                        .setMaxPerObjectLabelCount(1)
+                        .setClassificationConfidenceThreshold(0.4f)
+                        .setMaxPerObjectLabelCount(3)
                         .build()
                 val objectDetector = ObjectDetection.getClient(customObjectDetectorOptions)
 

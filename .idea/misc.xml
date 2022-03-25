@@ -4,6 +4,9 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Akitama/AndroidStudioProjects/FSLtranslator/app/src/main/res/drawable-v24/ic_launcher_background.xml" value="0.1" />
+        <entry key="..\:/Users/Akitama/AndroidStudioProjects/FSLtranslator/app/src/main/res/drawable/brn_bg.xml" value="0.253" />
+        <entry key="..\:/Users/Akitama/AndroidStudioProjects/FSLtranslator/app/src/main/res/drawable/ic_wave.xml" value="0.253" />
+        <entry key="..\:/Users/Akitama/AndroidStudioProjects/FSLtranslator/app/src/main/res/drawable/ic_wave_.xml" value="0.253" />
         <entry key="..\:/Users/Akitama/AndroidStudioProjects/FSLtranslator/app/src/main/res/layout/activity_guide.xml" value="0.5" />
         <entry key="..\:/Users/Akitama/AndroidStudioProjects/FSLtranslator/app/src/main/res/layout/activity_learn.xml" value="0.3020833333333333" />
         <entry key="..\:/Users/Akitama/AndroidStudioProjects/FSLtranslator/app/src/main/res/layout/activity_learn_tab.xml" value="0.5" />
@@ -14,6 +17,8 @@
         <entry key="..\:/Users/Akitama/AndroidStudioProjects/FSLtranslator/app/src/main/res/layout/activity_translate2.xml" value="0.3161231884057971" />
         <entry key="..\:/Users/Akitama/AndroidStudioProjects/FSLtranslator/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1335" />
         <entry key="..\:/Users/Akitama/AndroidStudioProjects/FSLtranslator/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1" />
+        <entry key="..\:/Users/Akitama/AndroidStudioProjects/FSLtranslator/app/src/main/res/mipmap-anydpi-v26/icon_launch.xml" value="0.3635" />
+        <entry key="..\:/Users/Akitama/AndroidStudioProjects/FSLtranslator/app/src/main/res/mipmap-anydpi-v26/icon_launch_round.xml" value="0.3485" />
       </map>
     </option>
   </component>

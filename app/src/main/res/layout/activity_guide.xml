@@ -13,37 +13,52 @@
           android:layout_height="wrap_content"
           tools:context=".GuideActivity">
 
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="monospace"
-                android:text="@string/guide"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                android:textSize="24sp"
-                android:textStyle="bold"
+            <RelativeLayout
+                android:layout_width="412dp"
+                android:layout_height="120dp"
+                android:background="@drawable/ic_wave_"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintHorizontal_bias="0.666"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.04" />
+                app:layout_constraintVertical_bias="0.0">
+
+                  <TextView
+                      android:id="@+id/textView2"
+                      android:layout_width="115dp"
+                      android:layout_height="wrap_content"
+                      android:layout_alignParentStart="true"
+                      android:layout_alignParentTop="true"
+                      android:layout_alignParentEnd="true"
+                      android:layout_alignParentBottom="true"
+                      android:layout_marginStart="137dp"
+                      android:layout_marginTop="37dp"
+                      android:layout_marginEnd="161dp"
+                      android:layout_marginBottom="51dp"
+                      android:fontFamily="monospace"
+                      android:text="Guide"
+                      android:textAlignment="center"
+                      android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                      android:textSize="24sp"
+                      android:textStyle="bold" />
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-black"
-                android:text="@string/how_does_it_work"
+                android:text="How does it work?"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                 android:textSize="20sp"
                 android:typeface="sans"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.075"
+                app:layout_constraintHorizontal_bias="0.055"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.146" />
+                app:layout_constraintVertical_bias="0.17" />
 
             <TextView
                 android:id="@+id/textView7"
@@ -56,10 +71,10 @@
                 android:typeface="sans"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.086"
+                app:layout_constraintHorizontal_bias="0.051"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.428" />
+                app:layout_constraintVertical_bias="0.437" />
 
             <TextView
                 android:id="@+id/textView4"
@@ -80,42 +95,42 @@
 
             <TextView
                 android:id="@+id/textView5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="356dp"
+                android:layout_height="83dp"
                 android:text="The application uses Object Detection and cameraX in kotlin as their dependency, the app currently uses MLKits for the data extracted to translate the sign language. "
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.6"
+                app:layout_constraintHorizontal_bias="0.2"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.229" />
+                app:layout_constraintVertical_bias="0.236" />
 
             <TextView
                 android:id="@+id/textView6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="334dp"
+                android:layout_height="119dp"
                 android:text="The 'translate' button is used to activate the Algorithm, once pressed the user will be prompted to give permission to open the camera and access media files, for the algorithm to work. Once pressed it will then show the camera of the mobile device."
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.542"
+                app:layout_constraintHorizontal_bias="0.146"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.554" />
+                app:layout_constraintVertical_bias="0.564" />
 
             <TextView
                 android:id="@+id/textView8"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="332dp"
+                android:layout_height="121dp"
                 android:text="When activated the user must aim the camera at the person who is going to initiate the Sign langue, after a few seconds it will then detect it and will display a translated text at the bottom of the screen, to indicate the gesture that was captured."
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.514"
+                app:layout_constraintHorizontal_bias="0.201"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.756" />
+                app:layout_constraintVertical_bias="0.833" />
 
       </androidx.constraintlayout.widget.ConstraintLayout>
 

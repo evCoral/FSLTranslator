@@ -13,20 +13,20 @@ class SecondActivity : AppCompatActivity() {
 
         val actionBar = supportActionBar
 
-        actionBar!!.title = "Main"
+//        actionBar!!.title = "Main"
         val guideBtn = findViewById<Button>(R.id.guideBtn)
-        val trnsBtn = findViewById<Button>(R.id.translateBtn)
-        val fdbckBtn = findViewById<Button>(R.id.feedbackBtn)
+        val translateBtn = findViewById<Button>(R.id.translateBtn)
+        val feedbackBtn = findViewById<Button>(R.id.feedbackBtn)
 
         guideBtn.setOnClickListener {
             val intent = Intent(this, GuideActivity::class.java)
             startActivity(intent)
             }
-        trnsBtn.setOnClickListener {
+        translateBtn.setOnClickListener {
             val trans = Intent(this, TranslateActivity::class.java)
             startActivity(trans)
             }
-        fdbckBtn.setOnClickListener {
+        feedbackBtn.setOnClickListener {
             val url = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
             val i = Intent(Intent.ACTION_VIEW)
             i.data = Uri.parse(url)
