@@ -103,12 +103,6 @@ class TranslateActivity : AppCompatActivity() {
                                 val boundingBox = detectedObject.boundingBox
                                 val trackingId = detectedObject.trackingId
                                 for (label in detectedObject.labels) {
-                                    if (label.text == "Drink" || label.text == "Eat")
-                                    prevPredict = label.text
-                                    if (label.text == "Drink2" || prevPredict == "Drink")
-                                    binding.textView10.text = "I need a Drink"
-                                    if (label.text == "Eat2" || prevPredict == "Eat")
-                                    binding.textView10.text = "I need to Eat"
                                     binding.textView10.text = label.text
                                     val text = label.text
                                     val confidence = label.confidence

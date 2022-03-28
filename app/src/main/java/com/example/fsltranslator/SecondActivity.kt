@@ -24,7 +24,7 @@ class SecondActivity : AppCompatActivity() {
             startActivity(trans)
             }
         feedbackBtn.setOnClickListener {
-            val url = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+            val url = "https://docs.google.com/forms/d/e/1FAIpQLSeJO3o4kAjDUlRpyVY5w66He3LEqq0hHw_XRDSuQ6JXjuJgDA/viewform"
             val i = Intent(Intent.ACTION_VIEW)
             i.data = Uri.parse(url)
             startActivity(i)
