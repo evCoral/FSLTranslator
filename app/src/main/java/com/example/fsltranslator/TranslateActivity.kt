@@ -106,7 +106,7 @@ class TranslateActivity : AppCompatActivity() {
                                     binding.textView10.text = label.text
                                     val text = label.text
                                     val confidence = label.confidence
-                                    binding.textView10.text = label.text + " " + label.confidence
+                                    binding.textView10.text = "Gesture: " + label.text + "\n" + " " +"Accuracy: "+ label.confidence * 100 + "%"
                                 }
                             }
                             image.close()
